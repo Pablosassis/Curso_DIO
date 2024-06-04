@@ -5,6 +5,9 @@ extrato = []
 Limite = 500
 SemSaque = "Não possui dinheiro em conta"
 ValorSacado = 0
+Cpf = {
+    
+}
 #Classes
 class Banco():
     def saque(self, valorDeSaque):
@@ -30,33 +33,47 @@ class Banco():
     def arrumarextrato(self):
         global Total
         i = 0
-        for i in range(len(extrato)):
+        ArrumarExtrato = extrato.copy()
+        for i in range(len(ArrumarExtrato)):
             preco = "R$"
-            if preco in str(extrato[i]):
+            if preco in str(ArrumarExtrato[i]):
                 pass
             else:
-                extrato.insert(i,"R$ " + str(extrato[i]))
-                extrato.pop(i+1)         
-        print(f"Extrato da conta(positivos depósito e negativos saques) {extrato}")
+                ArrumarExtrato.insert(i,"R$ " + str(ArrumarExtrato[i]))
+                ArrumarExtrato.pop(i+1)         
+        print(f"Extrato da conta(positivos depósito e negativos saques) {ArrumarExtrato}")
         print(f"Total em conta: R${Total}")
+    def criar_usuario(self, CpfCadastro):
+        
+        pass
 
-while escolhas==0:
-    escolhas = int(input("1.Depósito\n2.Saque\n3.Extrato\n4.Sair\n"))
-    match escolhas:
-        case 1:
-            valorDeDeposito = int(input("Qual valor deseja depositar?\n"))
-            Banco().deposito(valorDeDeposito)
-            escolhas = 0
-        case 2:
-            valorDeSaque = int(input("Qual valor deseja sacar?\n"))
-            Banco().saque(valorDeSaque)
-            escolhas = 0
-        case 3:
-            Banco().arrumarextrato()
-            escolhas = 0
-        case 4:
-            quit("tchau")
-        case _:
-            print("Só números de 1 a 4")
-            escolhas = 0
-            
+
+while True:
+    try:
+        escolhas = int(input("1.Depósito\n2.Saque\n3.Extrato\n4.Criar Conta\n5.Sair\n"))
+        match escolhas:
+            case 1:
+                try:
+                    valorDeDeposito = int(input("Qual valor deseja depositar?\n"))
+                    Banco().deposito(valorDeDeposito)
+                except ValueError:
+                    print("Somente números\n")
+            case 2:
+                try:
+                    valorDeSaque = int(input("Qual valor deseja sacar?\n"))
+                    Banco().saque(valorDeSaque)
+                except ValueError:
+                    print("Somente números\n")
+            case 3:
+                Banco().arrumarextrato()
+            case 4:
+                try:
+                    CpfCadastro = int(input())
+                except ValueError:
+                    print("Somente números")
+            case 5:
+                quit("tchau")
+            case _:
+                print("Só números de 1 a 5\n")
+    except ValueError:
+        print("Somente numeros de 1 a 5\n")
