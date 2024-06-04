@@ -3,18 +3,15 @@ escolhas=0
 Total = 0
 extrato = []
 Limite = 500
-SemSaque = "Não possui dinheiro em conta"
-ValorSacado = 0
-Cpf = {
-    
-}
+Cpf = set([])
+conta = 0
 #Classes
 class Banco():
     def saque(self, valorDeSaque):
         global Total
         global Limite
         if Total <= 0 or Total - valorDeSaque < 0:
-            print(f"{SemSaque}")
+            print("Não possui dinheiro em conta")
         elif Limite - valorDeSaque < 0:
             print("Você chegou ao limite de saque")
         else:
@@ -44,7 +41,15 @@ class Banco():
         print(f"Extrato da conta(positivos depósito e negativos saques) {ArrumarExtrato}")
         print(f"Total em conta: R${Total}")
     def criar_usuario(self, CpfCadastro):
-        
+        if len(str(CpfCadastro)) >11 or len(str(CpfCadastro)) < 11:
+            print("CPF inválido\n")
+        elif CpfCadastro in Cpf:
+            print("CPF já cadastrado\n")
+        else:
+            Cpf.add(CpfCadastro)
+            CpfCadastro = str(CpfCadastro)
+            print(f"Criada a conta no Cpf ***.***.***-{CpfCadastro[9:11]}\n")
+            print(Cpf)
         pass
 
 
@@ -54,13 +59,13 @@ while True:
         match escolhas:
             case 1:
                 try:
-                    valorDeDeposito = int(input("Qual valor deseja depositar?\n"))
+                    valorDeDeposito = float(input("Qual valor deseja depositar?\n"))
                     Banco().deposito(valorDeDeposito)
                 except ValueError:
                     print("Somente números\n")
             case 2:
                 try:
-                    valorDeSaque = int(input("Qual valor deseja sacar?\n"))
+                    valorDeSaque = float(input("Qual valor deseja sacar?\n"))
                     Banco().saque(valorDeSaque)
                 except ValueError:
                     print("Somente números\n")
@@ -68,9 +73,10 @@ while True:
                 Banco().arrumarextrato()
             case 4:
                 try:
-                    CpfCadastro = int(input())
+                    CpfCadastro = int(input("Qual Cpf deseja cadastrar?\n"))
+                    Banco().criar_usuario(CpfCadastro)
                 except ValueError:
-                    print("Somente números")
+                    print("Somente números\n")
             case 5:
                 quit("tchau")
             case _:
