@@ -1,0 +1,3 @@
+*.code-workspace
+/bancoV1/__pycache__
+*.json
